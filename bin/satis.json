@@ -6,6 +6,32 @@
     "output-dir": "/srv/www/htdocs/horde-satis.maintaina.com/",
     "repositories": [
 
+     {"url": "https://github.com/maintaina-com/git-tools", "type": "vcs"}, 
+     {"url": "https://github.com/maintaina-com/horde-installer-plugin", "type": "vcs"},
+     {"url": "https://github.com/maintaina-com/base", "type": "vcs"},
+
+     {"url": "https://github.com/maintaina-com/ansel", "type": "vcs"},
+     {"url": "https://github.com/maintaina-com/nag", "type": "vcs"},
+     {"url": "https://github.com/maintaina-com/content", "type": "vcs"},
+     {"url": "https://github.com/maintaina-com/timeobjects", "type": "vcs"},
+     {"url": "https://github.com/maintaina-com/kronolith", "type": "vcs"},
+     {"url": "https://github.com/maintaina-com/imp", "type": "vcs"},
+     {"url": "https://github.com/maintaina-com/mnemo", "type": "vcs"},
+     {"url": "https://github.com/maintaina-com/turba", "type": "vcs"},
+     {"url": "https://github.com/maintaina-com/passwd", "type": "vcs"},
+     {"url": "https://github.com/maintaina-com/whups", "type": "vcs"},
+
+     {"url": "https://github.com/maintaina-com/Alarm", "type": "vcs"},
+     {"url": "https://github.com/maintaina-com/components", "type": "vcs"},
+     {"url": "https://github.com/maintaina-com/Exception", "type": "vcs"},
+     {"url": "https://github.com/maintaina-com/Argv", "type": "vcs"},
+     {"url": "https://github.com/maintaina-com/Auth", "type": "vcs"},
+     {"url": "https://github.com/maintaina-com/Autoloader", "type": "vcs"},
+     {"url": "https://github.com/maintaina-com/Backup", "type": "vcs"},
+     {"url": "https://github.com/maintaina-com/Browser", "type": "vcs"},
+     {"url": "https://github.com/maintaina-com/Cache", "type": "vcs"},
+     {"url": "https://github.com/maintaina-com/Compress", "type": "vcs"},
+     {"url": "https://github.com/maintaina-com/Compress_Fast", "type": "vcs"},
      {"url": "https://github.com/maintaina-com/Controller", "type": "vcs"}
      ]
     }
