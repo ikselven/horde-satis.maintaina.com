@@ -4,7 +4,7 @@ name: Horde Satis Repo
 on:
   # run the workflow everyday at 00:00 UTC
   schedule:
-    - cron: '40 10 * * *'
+    - cron: '45 7 * * *'
   # in addition, run on every push to the master branch
   push:
     branches:
@@ -66,7 +66,7 @@ jobs:
             -u $(id -u):$(id -g) \
             -v $(pwd)/build:/build \
             -v "${COMPOSER_HOME:-$HOME/.composer}:/composer" \
-            composer/satis --no-ansi --no-interaction build -- /build/satis.json /build/output
+            composer/satis -vvv --no-ansi --no-interaction build -- /build/satis.json /build/output
           rm -rf "$HOME/.composer"
 
       # deploy the website to gh-pages branch of a separate repository
