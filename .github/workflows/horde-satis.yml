@@ -4,7 +4,7 @@ name: Horde Satis Repo
 on:
   # run the workflow everyday at 00:00 UTC
   schedule:
-    - cron: '45 7 * * *'
+    - cron: '35 8 * * *'
   # in addition, run on every push to the master branch
   push:
     branches:
