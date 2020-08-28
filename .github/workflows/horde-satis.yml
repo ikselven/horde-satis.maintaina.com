@@ -55,6 +55,16 @@ jobs:
       # - name: Install PHP dependencies
       #   uses: php-actions/composer@v1
 
+      # accelerate mirror generation by caching the composer directory
+      - name: Cache composer directory
+        id: composer-cache
+        uses: actions/cache@v2
+        with:
+          path: ~/.composer
+          key: ${{ runner.os }}-php-${{ hashFiles('**/composer.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-php-
+
       # generate the Satis Website
       - name: Generate Satis Website
         run: |
