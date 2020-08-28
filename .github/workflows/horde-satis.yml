@@ -4,7 +4,7 @@ name: Horde Satis Repo
 on:
   # run the workflow everyday at 00:00 UTC
   schedule:
-    - cron: '35 8 * * *'
+    - cron: '5 9 * * *'
   # in addition, run on every push to the master branch
   push:
     branches:
@@ -55,13 +55,20 @@ jobs:
       # - name: Install PHP dependencies
       #   uses: php-actions/composer@v1
 
+      #
+      - name: Get Date
+        id: get-date
+        run: |
+          echo "::set-output name=date::$(/bin/date -u "+%F")"
+        shell: bash
+
       # accelerate mirror generation by caching the composer directory
       - name: Cache composer directory
         id: composer-cache
         uses: actions/cache@v2
         with:
           path: ~/.composer
-          key: ${{ runner.os }}-php-${{ hashFiles('**/composer.lock') }}
+          key: ${{ runner.os }}-php-${{ steps.get-date.outputs.date }}
           restore-keys: |
             ${{ runner.os }}-php-
 
