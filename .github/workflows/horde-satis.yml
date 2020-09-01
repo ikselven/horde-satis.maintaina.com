@@ -77,14 +77,20 @@ jobs:
         run: |
           mkdir build
           ln bin/satis.json build/satis.json
+          export COMPOSER_HOME="$HOME/.composer"
           composer config -g github-oauth.github.com "${{ secrets.GITHUB_TOKEN }}"
           docker pull composer/satis
-          docker run --rm --init \
-            -u $(id -u):$(id -g) \
-            -v $(pwd)/build:/build \
-            -v "${COMPOSER_HOME:-$HOME/.composer}:/composer" \
-            composer/satis -vvv --no-ansi --no-interaction build -- /build/satis.json /build/output
-          rm -rf "$HOME/.composer"
+          for repo in $(jq '.repositories[].url' build/satis.json | tr -d '"')
+          do
+            echo "Updating mirror metadata for repo $repo..."
+            docker run --rm --init \
+              -u $(id -u):$(id -g) \
+              -v $(pwd)/build:/build \
+              -v "$COMPOSER_HOME:/composer" \
+              composer/satis -vvv --no-ansi --no-interaction build \
+              --repository-url "$repo" -- /build/satis.json /build/output
+            sleep 1
+          done
 
       # deploy the website to gh-pages branch of a separate repository
       - name: Deploy Satis Website
