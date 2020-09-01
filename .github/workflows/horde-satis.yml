@@ -4,7 +4,7 @@ name: Horde Satis Repo
 on:
   # run the workflow everyday at 00:00 UTC
   schedule:
-    - cron: '5 9 * * *'
+    - cron: '35 9 * * *'
   # in addition, run on every push to the master branch
   push:
     branches:
@@ -62,12 +62,15 @@ jobs:
           echo "::set-output name=date::$(/bin/date -u "+%F")"
         shell: bash
 
-      # accelerate mirror generation by caching the composer directory
-      - name: Cache composer directory
-        id: composer-cache
+      # accelerate mirror generation by caching the composer directory and the
+      # build output
+      - name: Cache composer directory and build output
+        id: composer-and-build-output-cache
         uses: actions/cache@v2
         with:
-          path: ~/.composer
+          path: |
+            ~/.composer
+            build/output
           key: ${{ runner.os }}-php-${{ steps.get-date.outputs.date }}
           restore-keys: |
             ${{ runner.os }}-php-
@@ -75,22 +78,16 @@ jobs:
       # generate the Satis Website
       - name: Generate Satis Website
         run: |
-          mkdir build
+          mkdir -p build
           ln bin/satis.json build/satis.json
           export COMPOSER_HOME="$HOME/.composer"
           composer config -g github-oauth.github.com "${{ secrets.GITHUB_TOKEN }}"
           docker pull composer/satis
-          for repo in $(jq '.repositories[].url' build/satis.json | tr -d '"')
-          do
-            echo "Updating mirror metadata for repo $repo..."
-            docker run --rm --init \
-              -u $(id -u):$(id -g) \
-              -v $(pwd)/build:/build \
-              -v "$COMPOSER_HOME:/composer" \
-              composer/satis -vvv --no-ansi --no-interaction build \
-              --repository-url "$repo" -- /build/satis.json /build/output
-            sleep 1
-          done
+          docker run --rm --init \
+            -u "$(id -u):$(id -g)" \
+            -v "$(pwd)/build:/build" \
+            -v "${COMPOSER_HOME}:/composer" \
+            composer/satis -vvv --no-ansi --no-interaction build -- /build/satis.json /build/output
 
       # deploy the website to gh-pages branch of a separate repository
       - name: Deploy Satis Website
